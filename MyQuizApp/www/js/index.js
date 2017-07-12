@@ -16,6 +16,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -28,6 +30,8 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.receivedEvent('deviceready');
+        this.getQuiz();
+
     },
 
     // Update DOM on a Received Event
@@ -40,7 +44,24 @@ var app = {
         receivedElement.setAttribute('style', 'display:block;');
 
         console.log('Received Event: ' + id);
+    },
+    getQuiz: function(){
+        console.log("Trying to get quiz");
+        var url = "https://opentdb.com/api.php?amount=10"
+        $.getJSON(url,function(data){
+            console.log("Quiz retrieved")
+            console.log(data);
+
+        });
+
+    },
+
+    refresh: function(){
+        $("#quiz").html("");
+        this.getQuiz();
     }
+
+
 };
 
 app.initialize();
