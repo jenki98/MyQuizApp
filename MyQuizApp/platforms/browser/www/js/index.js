@@ -28,36 +28,43 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-   onDeviceReady: function() {
+    onDeviceReady: function() {
         this.getQuiz();
 
-    },
 
-    // Update DOM on a Received Event
-   /* receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id); 
-    },*/
-    getQuiz: function(){
+},
+   getQuiz: function(){
         console.log("Trying to get quiz");
         var url = "https://opentdb.com/api.php?amount=10"
         $.getJSON(url,function(data){
-            console.log("Quiz retrieved")
+            console.log("Quiz retrieved");
             console.log(data);
-            $("#question").html(data.results[0].question);
-            $("#answer").html(data.results[0].correct_answer);
-        });
+            /*var correctOption = Math.floor(Math.random()*4);
+            if (correctOption == 0){
+*/
 
+    
+
+            var showQuestion = function(i) {
+               $("#answer").html(data.results[i].question);
+                $("#showanswer").click(function(){
+                    $("#answer").html(data.results[i].correct_answer);
+                });
+            };
+            
+                   var currentQuestion = 0;
+                 $("#nextquestion").click(function(){
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            });
+         
+        
+                
+        });
     },
 
     refresh: function(){
-        $("#quiz").html("");
+       // $("#quiz").html("");
         this.getQuiz();
     }
 
