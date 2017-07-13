@@ -28,14 +28,13 @@ var app = {
     //
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
-    onDeviceReady: function() {
-        this.receivedEvent('deviceready');
+   onDeviceReady: function() {
         this.getQuiz();
 
     },
 
     // Update DOM on a Received Event
-    receivedEvent: function(id) {
+   /* receivedEvent: function(id) {
         var parentElement = document.getElementById(id);
         var listeningElement = parentElement.querySelector('.listening');
         var receivedElement = parentElement.querySelector('.received');
@@ -43,15 +42,16 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
-    },
+        console.log('Received Event: ' + id); 
+    },*/
     getQuiz: function(){
         console.log("Trying to get quiz");
         var url = "https://opentdb.com/api.php?amount=10"
         $.getJSON(url,function(data){
             console.log("Quiz retrieved")
             console.log(data);
-
+            $("#question").html(data.results[0].question);
+            $("#answer").html(data.results[0].correct_answer);
         });
 
     },
