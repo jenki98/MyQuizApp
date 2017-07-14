@@ -39,67 +39,58 @@ var app = {
         $.getJSON(url,function(data){
             console.log("Quiz retrieved");
             console.log(data);
+
+            var correctOption = Math.floor(Math.random()*4);
+            
             var showOptions= function(question) {
-                 var correctOption = Math.floor(Math.random()*4);
-            for (i = 0; i < 4; i++){
-                if (correctOption == i){
-                    $("#option" + i).html(question.correct_answer);
+                for (i = 0; i < 4; i++){
+                    if (correctOption == i){
+                        $("#option" + i).html(question.correct_answer);
 
-                } else {
-                    $("#option"+ i).html(question.incorrect_answers.pop());
+                    } else {
+                        $("#option"+ i).html(question.incorrect_answers.pop());
 
+                }
             }
-            }
-
-                     
-      
-
-}
-
-    
 
             var showQuestion = function(question) {
-                     $("#answer").html(question.question);
-
-               
+                 $("#answer").html(question.question);     
             };
-                 var points = 0
-                 var currentQuestion = 0;
 
-                 // checkAnswer.click = checks if correct, adds 1 to score, hides checkanswer button, shows nextquestion button
-                 $("#answeroptions").click(function(){
-                    $("#checkanswer").show();
+             var points = 0
+             var currentQuestion = 0;
 
-                 });
+             // checkAnswer.click = checks if correct, adds 1 to score, hides checkanswer button, shows nextquestion button
+             $("#answeroptions").click(function(){
+                $("#checkanswer").show();
+             });
 
-                 $("#checkanswer").click(function(){
-                    if($('input[name=option]:checked', '#answeroptions').val() == correctOption){
-                        console.log("Correct");
-                        points++
+             $("#checkanswer").click(function(){
+                if($('input[name=option]:checked', '#answeroptions').val() == correctOption){
+                    console.log("Correct");
+                    points++
 
-                    } else{
-                        console.log("Wrong");
+                } else{
+                    console.log("Wrong");
 
-                    }
-                    $("#checkanswer").hide();
-                    $("#nextquestion").show();
-
-
-                 })
-
-                 // nextQuestion.click = adds 1 to currentquestion, shows next question and answers, hides nextquestion button, shows checkanswer button
+                }
+                $("#checkanswer").hide();
+                $("#nextquestion").show();
 
 
+             })
 
-                 $("#nextquestion").click(function(){
-                    currentQuestion++;
+             // nextQuestion.click = adds 1 to currentquestion, shows next question and answers, hides nextquestion button, shows checkanswer button
 
-                     $("#checkanswer").show();
-                    $("#nextquestion").hide();
-                 
+             $("#nextquestion").click(function(){
+                currentQuestion++;
 
-                    if (currentQuestion >= 10){
-                        console.log("Your score is "+ points +"/10");
+                $("#checkanswer").show();
+                $("#nextquestion").hide();
+             
+
+                if (currentQuestion >= 10){
+                    console.log("Your score is "+ points +"/10");
                     
                        /* if($("input[name=option]:checked".val() == question.correct_answer)){
                                $("#checkanswer").click(function(){
@@ -126,7 +117,7 @@ var app = {
 
                 });
          
-        
+            }        
                 
         });
     },
