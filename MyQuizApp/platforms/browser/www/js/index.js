@@ -16,8 +16,74 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+ var app = {
+    // Application Constructor
+    initialize: function() {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
+
+    // deviceready Event Handler
+    //
+    // Bind any cordova events here. Common events are:
+    // 'pause', 'resume', etc.
+    onDeviceReady: function() {
+        this.getQuiz();
 
 
+},
+   getQuiz: function(){
+        console.log("Trying to get quiz");
+        var url = "https://opentdb.com/api.php?amount=50&type=multiple";
+        $.getJSON(url,function(data){
+            console.log("Quiz retrieved");
+            console.log(data);
+            
+            
+             var showOptions= function(question) {
+                     var correctOption = Math.floor(Math.random()*4);
+                for (i = 0; i < 4; i++){
+                    if (correctOption == i){
+                        $("#option" + i).html(question.correct_answer);
+
+                    } else {
+                        $("#option"+ i).html(question.incorrect_answers.pop());
+
+                }
+            }
+        };
+
+            var showQuestion = function(i) {
+               $("#answer").html(data.results[i].question);
+                $("#showanswer").click(function(){
+                    $("#answer").html(data.results[i].correct_answer);
+                });
+            };
+            
+                   var currentQuestion = 0;
+                 $("#nextquestion").click(function(){
+                currentQuestion++;
+                showQuestion(currentQuestion);
+                showOptions(data.results[currentQuestion]);
+               
+            });
+         
+        
+                
+        });
+    },
+
+    refresh: function(){
+       // $("#quiz").html("");
+        this.getQuiz();
+    }
+
+
+};
+
+app.initialize();
+
+
+/*
 var app = {
     // Application Constructor
     initialize: function() {
@@ -30,6 +96,7 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         this.getQuiz();
+
 
 
 },
@@ -65,7 +132,7 @@ var app = {
                 $("#checkanswer").show();
              });
 
-             $("#checkanswer").click(function(){
+             $("#checkanswer").click(function() {
                 if($('input[name=option]:checked', '#answeroptions').val() == correctOption){
                     console.log("Correct");
                     points++
@@ -92,7 +159,7 @@ var app = {
                 if (currentQuestion >= 10){
                     console.log("Your score is "+ points +"/10");
                     
-                       /* if($("input[name=option]:checked".val() == question.correct_answer)){
+                        if($("input[name=option]:checked".val() == question.correct_answer)){
                                $("#checkanswer").click(function(){
                     console.log("Correct")
                 });
@@ -104,7 +171,7 @@ var app = {
                 });
                              console.log("Your score is " + points + "/10");z
 
-                        }*/
+                        }
 
                       //  app.refresh();
 
@@ -116,8 +183,7 @@ var app = {
                     }
 
                 });
-         
-            }        
+            }                
                 
         });
     },
@@ -131,3 +197,4 @@ var app = {
 };
 
 app.initialize();
+*/

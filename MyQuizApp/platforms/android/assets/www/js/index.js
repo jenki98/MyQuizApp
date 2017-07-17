@@ -16,9 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-
-var app = {
+ var app = {
     // Application Constructor
     initialize: function() {
         document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
@@ -35,15 +33,24 @@ var app = {
 },
    getQuiz: function(){
         console.log("Trying to get quiz");
-        var url = "https://opentdb.com/api.php?amount=10"
+        var url = "https://opentdb.com/api.php?amount=50&type=multiple";
         $.getJSON(url,function(data){
             console.log("Quiz retrieved");
             console.log(data);
-            /*var correctOption = Math.floor(Math.random()*4);
-            if (correctOption == 0){
-*/
+            
+            
+             var showOptions= function(question) {
+                     var correctOption = Math.floor(Math.random()*4);
+                for (i = 0; i < 4; i++){
+                    if (correctOption == i){
+                        $("#option" + i).html(question.correct_answer);
 
-    
+                    } else {
+                        $("#option"+ i).html(question.incorrect_answers.pop());
+
+                }
+            }
+        };
 
             var showQuestion = function(i) {
                $("#answer").html(data.results[i].question);
@@ -56,6 +63,8 @@ var app = {
                  $("#nextquestion").click(function(){
                 currentQuestion++;
                 showQuestion(currentQuestion);
+                showOptions(data.results[currentQuestion]);
+               
             });
          
         
@@ -72,3 +81,120 @@ var app = {
 };
 
 app.initialize();
+
+
+/*
+var app = {
+    // Application Constructor
+    initialize: function() {
+        document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
+    },
+
+    // deviceready Event Handler
+    //
+    // Bind any cordova events here. Common events are:
+    // 'pause', 'resume', etc.
+    onDeviceReady: function() {
+        this.getQuiz();
+
+
+
+},
+   getQuiz: function(){
+        console.log("Trying to get quiz");
+        var url = "https://opentdb.com/api.php?amount=10&type=multiple"
+        $.getJSON(url,function(data){
+            console.log("Quiz retrieved");
+            console.log(data);
+
+            var correctOption = Math.floor(Math.random()*4);
+            
+            var showOptions= function(question) {
+                for (i = 0; i < 4; i++){
+                    if (correctOption == i){
+                        $("#option" + i).html(question.correct_answer);
+
+                    } else {
+                        $("#option"+ i).html(question.incorrect_answers.pop());
+
+                }
+            }
+
+            var showQuestion = function(question) {
+                 $("#answer").html(question.question);     
+            };
+
+             var points = 0
+             var currentQuestion = 0;
+
+             // checkAnswer.click = checks if correct, adds 1 to score, hides checkanswer button, shows nextquestion button
+             $("#answeroptions").click(function(){
+                $("#checkanswer").show();
+             });
+
+             $("#checkanswer").click(function() {
+                if($('input[name=option]:checked', '#answeroptions').val() == correctOption){
+                    console.log("Correct");
+                    points++
+
+                } else{
+                    console.log("Wrong");
+
+                }
+                $("#checkanswer").hide();
+                $("#nextquestion").show();
+
+
+             })
+
+             // nextQuestion.click = adds 1 to currentquestion, shows next question and answers, hides nextquestion button, shows checkanswer button
+
+             $("#nextquestion").click(function(){
+                currentQuestion++;
+
+                $("#checkanswer").show();
+                $("#nextquestion").hide();
+             
+
+                if (currentQuestion >= 10){
+                    console.log("Your score is "+ points +"/10");
+                    
+                        if($("input[name=option]:checked".val() == question.correct_answer)){
+                               $("#checkanswer").click(function(){
+                    console.log("Correct")
+                });
+                            points == point + 1
+                        }else {
+                            console.log("Incorrect")
+                             $("#checkanswer").click(function(){
+                    $("#answer").html(question.correct_answer);
+                });
+                             console.log("Your score is " + points + "/10");z
+
+                        }
+
+                      //  app.refresh();
+
+                    } else {
+
+                        showQuestion(data.results[currentQuestion]);
+                        showOptions(data.results[currentQuestion]);
+                        
+                    }
+
+                });
+            }                
+                
+        });
+    },
+
+    refresh: function(){
+       // $("#quiz").html("");
+        this.getQuiz();
+    }
+
+
+};
+
+app.initialize();
+*/
